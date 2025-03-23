@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "markdown-it": "^14.1.0"
+  },
+  "scripts": {
+    "dev": "vite --force",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}

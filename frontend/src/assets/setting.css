@@ -1,0 +1,1417 @@
+/* 全局设置 */
+.setting-container {
+  padding: 30px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+/* 卡片基础样式 */
+.el-card {
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: none;
+  overflow: hidden;
+  height: 100%;
+}
+
+.el-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* 卡片头部样式 */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  background: linear-gradient(135deg, #42b983 0%, #34a773 100%);
+  color: white;
+}
+
+.card-header h3 {
+  color: white;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 卡片头部编辑按钮样式优化 */
+.card-header .el-button {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.card-header .el-button:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  color: #34a773;
+}
+
+.card-header .el-button .el-icon {
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+/* 个人资料卡片样式 */
+.profile-card {
+  height: 100%;
+}
+
+.profile-content {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.profile-content h2 {
+  margin: 15px 0 5px;
+  color: #333;
+}
+
+.user-role {
+  color: #666;
+  margin: 0 0 20px;
+}
+
+.user-info {
+  text-align: left;
+  padding: 0 20px;
+}
+
+.user-info p {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  color: #666;
+}
+
+.user-info .el-icon {
+  margin-right: 10px;
+  color: #42b983;
+}
+
+/* 头像上传样式 */
+.avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 25px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.avatar-container:hover {
+  transform: scale(1.05);
+}
+
+.avatar-uploader {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.3s ease;
+}
+
+.avatar-uploader-icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  color: #8c939d;
+  background-color: #f5f7fa;
+}
+
+.avatar-hover-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 50%;
+}
+
+.avatar-hover-mask .el-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.avatar-container:hover .avatar-hover-mask {
+  opacity: 1;
+}
+
+.info-container {
+  padding: 20px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  margin: 0 20px;
+}
+
+.info-item {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.info-item:hover {
+  background-color: #f0f0f0;
+}
+
+.info-item label {
+  width: 90px;
+  color: #606266;
+  font-weight: 500;
+}
+
+.info-item span {
+  color: #303133;
+  font-weight: 500;
+}
+
+.info-item .el-input {
+  flex: 1;
+}
+
+/* 修改密码卡片样式 */
+.password-card {
+  height: 100%;
+}
+
+.password-card .el-form {
+  padding: 25px;
+}
+
+.password-card .el-form-item {
+  margin-bottom: 25px;
+}
+
+.password-card .el-input {
+  transition: all 0.3s ease;
+}
+
+.password-card .el-input:focus,
+.password-card .el-input:hover {
+  transform: translateY(-2px);
+}
+
+.password-card .el-button {
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #42b983 0%, #34a773 100%);
+  border: none;
+}
+
+.password-card .el-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(66, 185, 131, 0.4);
+}
+
+/* 人脸识别卡片样式 */
+.face-card {
+  height: 100%;
+}
+
+.face-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.face-preview {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 25px;
+  border: 2px dashed #42b983;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f7f4;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.face-preview:hover {
+  border-color: #34a773;
+  transform: scale(1.02);
+}
+
+.face-preview .el-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.face-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.3s ease;
+}
+
+.face-animation {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.face-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.face-actions .el-button,
+.face-btn {
+  width: 100%;
+  margin: 0;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.face-actions .el-button:hover,
+.face-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.face-actions .el-button.is-disabled:hover,
+.face-btn.is-disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.face-actions .el-button .el-icon,
+.face-btn .el-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+/* 上传对话框样式 */
+.upload-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+.upload-options .el-button,
+.upload-options .el-upload,
+.upload-options .el-upload .el-button,
+.upload-options .upload-btn {
+  width: 100%;
+  margin: 0;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.upload-options .el-button:hover,
+.upload-options .el-upload .el-button:hover,
+.upload-options .upload-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.upload-options .el-button .el-icon,
+.upload-options .el-upload .el-button .el-icon,
+.upload-options .upload-btn .el-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.local-upload {
+  width: 100%;
+}
+
+.local-upload .el-upload {
+  width: 100%;
+}
+
+.local-upload .el-upload .el-button {
+  width: 100%;
+  height: 45px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 摄像头相关样式 */
+.camera-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background-color: #000;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.camera-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.face-frame {
+  width: 300px;
+  height: 300px;
+  border: 3px solid #42b983;
+  border-radius: 8px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6), 0 0 0 0 rgba(66, 185, 131, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6), 0 0 0 10px rgba(66, 185, 131, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6), 0 0 0 0 rgba(66, 185, 131, 0);
+  }
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 1200px) {
+  .el-col {
+    width: 100% !important;
+    margin-bottom: 30px;
+  }
+  
+  .setting-container {
+    padding: 20px 15px;
+  }
+}
+
+/* 密码强度指示器 */
+.password-strength {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #f5f7fa;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.strength-label {
+  font-size: 13px;
+  color: #606266;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.strength-bar {
+  height: 8px;
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.strength-indicator {
+  height: 100%;
+  transition: width 0.5s ease, background-color 0.5s ease;
+}
+
+.strength-indicator.weak {
+  width: 30%;
+  background: linear-gradient(to right, #f56c6c, #f78989);
+}
+
+.strength-indicator.medium {
+  width: 60%;
+  background: linear-gradient(to right, #e6a23c, #eeba64);
+}
+
+.strength-indicator.strong {
+  width: 100%;
+  background: linear-gradient(to right, #67c23a, #85ce61);
+}
+
+.strength-text {
+  font-size: 13px;
+  margin-top: 8px;
+  text-align: right;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.strength-text.weak {
+  color: #f56c6c;
+}
+
+.strength-text.medium {
+  color: #e6a23c;
+}
+
+.strength-text.strong {
+  color: #67c23a;
+}
+
+/* 摄像头提示样式 */
+.camera-tips {
+  margin-top: 20px;
+  text-align: center;
+  color: #606266;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 12px;
+  background-color: #f0f7f4;
+  border-radius: 8px;
+  border-left: 4px solid #42b983;
+}
+
+/* 图片占位符 */
+.image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f5f7fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.image-placeholder:hover {
+  background-color: #eef1f6;
+}
+
+.image-placeholder .el-icon {
+  font-size: 50px;
+  color: #909399;
+  margin-bottom: 12px;
+}
+
+.image-placeholder span {
+  color: #909399;
+  font-size: 14px;
+}
+
+.face-tips {
+  margin-top: 25px;
+  width: 100%;
+}
+
+.face-tips .el-alert {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 按钮悬浮效果 */
+.el-button {
+  transition: all 0.3s ease;
+}
+
+.el-button:hover:not(.is-disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* El-tag 样式优化 */
+.el-tag {
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 对话框样式 */
+.el-dialog {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.el-dialog__header {
+  background: linear-gradient(135deg, #42b983 0%, #34a773 100%);
+  color: white;
+  padding: 15px 20px;
+  margin-right: 0;
+}
+
+.el-dialog__title {
+  color: white;
+  font-weight: 600;
+}
+
+.el-dialog__headerbtn .el-dialog__close {
+  color: white;
+}
+
+.el-dialog__body {
+  padding: 25px;
+}
+
+.el-dialog__footer {
+  padding: 15px 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* 输入框样式 */
+.el-input__inner {
+  border-radius: 8px;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.el-input__inner:focus,
+.el-input__inner:hover {
+  border-color: #42b983;
+}
+
+.el-input__prefix {
+  color: #42b983;
+}
+
+/* 表单项样式 */
+.el-form-item__label {
+  font-weight: 500;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.setting-container > .el-row {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Vue过渡动画样式 */
+
+/* 淡入淡出效果 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(5px);
+}
+
+/* 滑动淡入淡出效果 */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.4s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* 缩放效果 */
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: all 0.3s ease;
+}
+
+.zoom-enter-from,
+.zoom-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* 卡片淡入效果 */
+.card-fade-enter-active {
+  transition: all 0.6s ease;
+}
+
+.card-fade-move {
+  transition: transform 0.6s ease;
+}
+
+.card-fade-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* 列表项过渡效果 */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.list-move {
+  transition: transform 0.5s ease;
+}
+
+/* 容器样式 */
+.transition-container {
+  width: 100%;
+}
+
+/* 编辑按钮容器 */
+.edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* 信息列表 */
+.info-list {
+  width: 100%;
+}
+
+/* 对话框样式增强 */
+.upload-dialog .el-dialog__body,
+.camera-dialog .el-dialog__body {
+  padding-top: 30px;
+}
+
+.upload-dialog .upload-options .el-button,
+.upload-dialog .upload-options .el-upload .el-button {
+  animation: buttonPulse 2s infinite;
+}
+
+@keyframes buttonPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(66, 185, 131, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(66, 185, 131, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(66, 185, 131, 0);
+  }
+}
+
+/* 摄像头框动画增强 */
+.camera-dialog .face-frame {
+  position: relative;
+}
+
+.camera-dialog .face-frame::before,
+.camera-dialog .face-frame::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 20px;
+  height: 20px;
+  border-top: 3px solid #42b983;
+  border-left: 3px solid #42b983;
+}
+
+.camera-dialog .face-frame::after {
+  top: auto;
+  left: auto;
+  bottom: -3px;
+  right: -3px;
+  border-top: none;
+  border-left: none;
+  border-bottom: 3px solid #42b983;
+  border-right: 3px solid #42b983;
+}
+
+/* 添加扫描线动画 */
+.face-preview {
+  position: relative;
+  overflow: hidden;
+}
+
+.face-preview::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(66, 185, 131, 0), rgba(66, 185, 131, 0.2));
+  animation: scanAnimation 2s ease-in-out infinite;
+}
+
+@keyframes scanAnimation {
+  0% {
+    top: -50%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* 摄像头对话框独立弹出样式 */
+.camera-dialog {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  width: 600px !important;
+  max-width: 90vw !important;
+  z-index: 9999 !important;
+}
+
+/* 确保对话框不受卡片样式影响 */
+.camera-dialog.el-dialog {
+  height: auto !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+  transform-origin: center !important;
+  position: absolute !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* 清除可能的内部样式影响 */
+.camera-dialog .el-dialog__body {
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+/* 防止内部元素被卡片样式限制 */
+.camera-dialog .camera-container {
+  height: 450px !important;
+  width: 100% !important;
+  max-width: none !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+/* 调整视频样式，确保完全显示 */
+.camera-dialog .camera-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* 上传对话框样式优化 */
+.upload-dialog {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  width: 400px !important;
+  max-width: 90vw !important;
+  z-index: 9999 !important;
+}
+
+/* 调整遮罩层样式，确保遮罩覆盖整个屏幕 */
+.el-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  z-index: 9000 !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(4px) !important;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease !important;
+}
+
+/* 对话框打开关闭动画 */
+.el-overlay {
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* 对话框内容动画 */
+.camera-dialog .camera-container,
+.camera-dialog .camera-tips,
+.camera-dialog .el-dialog__footer,
+.upload-dialog .upload-options {
+  animation: dialogContentFadeIn 0.5s ease;
+}
+
+@keyframes dialogContentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 摄像头框扫描效果增强 */
+.camera-dialog .face-frame::before,
+.camera-dialog .face-frame::after {
+  animation: cornerPulse 2s infinite alternate;
+}
+
+@keyframes cornerPulse {
+  0% {
+    border-color: rgba(66, 185, 131, 0.7);
+  }
+  100% {
+    border-color: rgba(66, 185, 131, 1);
+  }
+}
+
+/* 按钮点击波纹效果 */
+.face-actions .el-button:active::after,
+.upload-options .el-button:active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(40, 40);
+    opacity: 0;
+  }
+}
+
+/* 适应移动设备的摄像头对话框 */
+@media screen and (max-width: 768px) {
+  .camera-dialog {
+    width: 95vw !important;
+  }
+  
+  .camera-dialog .camera-container {
+    height: 350px !important;
+  }
+  
+  .camera-dialog .face-frame {
+    width: 250px !important;
+    height: 250px !important;
+  }
+  
+  .upload-dialog {
+    width: 90vw !important;
+  }
+}
+
+/* 摄像头模态窗口样式 */
+.camera-modal {
+  z-index: 9000 !important;
+}
+
+/* 全屏模式下的对话框调整 */
+.camera-dialog.is-fullscreen {
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background-color: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* 摄像头对话框内容居中 */
+.camera-dialog.is-fullscreen .el-dialog__body {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  padding: 20px !important;
+}
+
+/* 上传模态窗口样式 */
+.upload-modal {
+  z-index: 9000 !important;
+}
+
+/* 确保弹窗在其他元素之上 */
+.el-dialog {
+  position: relative;
+  margin: 0 auto;
+}
+
+/* 强制解决弹窗冲突问题 */
+body .camera-dialog,
+body .upload-dialog {
+  position: fixed !important;
+  inset: 0 !important;
+  margin: auto !important;
+  transform: none !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  max-height: 100vh !important;
+  width: 100% !important;
+  z-index: 9999 !important;
+}
+
+body .camera-dialog .el-dialog__wrapper,
+body .upload-dialog .el-dialog__wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+body .camera-dialog .el-dialog,
+body .upload-dialog .el-dialog {
+  margin: 0 auto !important;
+  max-width: 600px !important;
+  width: 95% !important;
+}
+
+/* 摄像头视频容器样式强制覆盖 */
+body .camera-dialog .camera-container {
+  position: relative !important;
+  width: 100% !important;
+  height: 450px !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  border-radius: 8px !important;
+}
+
+/* 修复对话框体验 */
+body .el-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 9000 !important;
+}
+
+/* 视频和框架样式覆盖 */
+.camera-overlay, 
+.camera-video, 
+.face-frame {
+  position: absolute !important;
+}
+
+/* 完全独立的摄像头全屏容器样式 - 优化版 */
+.camera-fullscreen-container {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: backdrop-fade 0.3s ease;
+}
+
+@keyframes backdrop-fade {
+  from {
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  to {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+}
+
+.camera-popup {
+  background-color: white;
+  border-radius: 16px;
+  width: 650px;
+  max-width: 95vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+  animation: popup-enter 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes popup-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.camera-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  background: linear-gradient(135deg, #34a773 0%, #2d8c63 100%);
+  color: white;
+}
+
+.camera-popup-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+}
+
+.camera-popup-header .close-btn {
+  color: white;
+  font-size: 22px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  margin-right: -8px;
+}
+
+.camera-popup-header .close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+/* 摄像头容器优化 */
+.camera-popup .camera-container {
+  padding: 0;
+  position: relative;
+  height: 450px;
+  background-color: #000;
+  border-radius: 0;
+}
+
+/* 摄像头视频优化 */
+.camera-popup .camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* 摄像头叠加层优化 */
+.camera-popup .camera-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 面部框架优化 */
+.camera-popup .face-frame {
+  width: 280px;
+  height: 350px;
+  margin: auto;
+  border: 2px solid rgba(66, 185, 131, 0.8);
+  border-radius: 16px;
+  position: relative;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65);
+}
+
+/* 面部框架装饰 */
+.camera-popup .face-frame::before,
+.camera-popup .face-frame::after {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 3px solid #42b983;
+  border-radius: 2px;
+}
+
+.camera-popup .face-frame::before {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.camera-popup .face-frame::after {
+  bottom: -3px;
+  right: -3px;
+  border-left: none;
+  border-top: none;
+  animation: none;
+  width: 25px;
+  height: 25px;
+  background: none;
+  box-shadow: none;
+}
+
+/* 添加左下和右上角标 */
+.camera-popup .face-frame::before,
+.camera-popup .face-frame::after,
+.camera-popup .face-frame span:nth-child(1),
+.camera-popup .face-frame span:nth-child(2) {
+  animation: corner-pulse 1.5s infinite alternate;
+}
+
+.camera-popup .face-frame span:nth-child(1) {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 3px solid #42b983;
+  border-radius: 2px;
+  top: -3px;
+  right: -3px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.camera-popup .face-frame span:nth-child(2) {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 3px solid #42b983;
+  border-radius: 2px;
+  bottom: -3px;
+  left: -3px;
+  border-right: none;
+  border-top: none;
+}
+
+@keyframes corner-pulse {
+  0% {
+    border-color: rgba(66, 185, 131, 0.6);
+  }
+  100% {
+    border-color: rgba(66, 185, 131, 1);
+  }
+}
+
+/* 添加扫描线动画 */
+.camera-popup .scan-line {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, 
+    rgba(66, 185, 131, 0),
+    rgba(66, 185, 131, 0.8) 20%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(66, 185, 131, 0.8) 80%,
+    rgba(66, 185, 131, 0)
+  );
+  box-shadow: 0 0 8px rgba(66, 185, 131, 0.8);
+  z-index: 10;
+  animation: scan-line 2s ease-in-out infinite;
+}
+
+@keyframes scan-line {
+  0% {
+    top: 0%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* 优化提示文字 */
+.camera-popup .camera-tips {
+  margin: 20px 24px;
+  text-align: center;
+  color: #606266;
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 12px 16px;
+  background-color: #f0f7f4;
+  border-radius: 10px;
+  border-left: 4px solid #42b983;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* 优化底部按钮区域 */
+.camera-popup-footer {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.camera-popup-footer .el-button {
+  min-width: 90px;
+  padding: 10px 20px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.camera-popup-footer .el-button:first-child {
+  margin-right: auto;
+}
+
+.camera-popup-footer .el-button:hover {
+  transform: translateY(-2px);
+}
+
+.camera-popup-footer .el-button--primary {
+  background: linear-gradient(135deg, #42b983 0%, #34a773 100%);
+  border: none;
+}
+
+/* 响应式适配 */
+@media screen and (max-width: 768px) {
+  .camera-popup .camera-container {
+    height: 380px;
+  }
+  
+  .camera-popup .face-frame {
+    width: 240px;
+    height: 300px;
+  }
+  
+  .camera-popup-header {
+    padding: 15px 20px;
+  }
+  
+  .camera-popup-header h3 {
+    font-size: 18px;
+  }
+  
+  .camera-popup .camera-tips {
+    margin: 15px 20px;
+    font-size: 14px;
+  }
+  
+  .camera-popup-footer {
+    padding: 12px 20px;
+  }
+}
+
+/* 添加摄像头准备就绪动画 */
+.camera-ready .camera-video {
+  animation: camera-ready 0.5s ease-out;
+}
+
+@keyframes camera-ready {
+  0% {
+    filter: brightness(0) saturate(0);
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+  }
+}
+
+/* 保存和取消按钮样式 */
+.edit-actions .el-button {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.edit-actions .el-button[type="success"] {
+  background-color: rgba(103, 194, 58, 0.8);
+}
+
+.edit-actions .el-button[type="success"]:hover {
+  background-color: rgba(103, 194, 58, 1);
+  color: white;
+}
+
+.edit-actions .el-button[type="info"] {
+  background-color: rgba(144, 147, 153, 0.8);
+}
+
+.edit-actions .el-button[type="info"]:hover {
+  background-color: rgba(144, 147, 153, 1);
+  color: white;
+}
+
+.edit-actions .el-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.edit-actions .el-button .el-icon {
+  margin-right: 6px;
+  font-size: 16px;
+}

@@ -1,0 +1,84 @@
+.herb-identification {
+    padding: 20px;
+  }
+  
+  .upload-section, .result-section {
+    height: 100%;
+    background-color: #fff;
+  }
+  
+  .upload-section {
+    border: 1px solid #e4e7ed;
+    border-radius: 4px;
+  }
+  
+  .upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .preview-container {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .preview-image {
+    max-width: 300px;
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .analyze-btn {
+    margin-top: 15px;
+  }
+  
+  .analysis-result {
+    color: #333;
+    padding: 15px;
+  }
+  
+  .usage-advice, .precautions {
+    margin-top: 20px;
+  }
+  
+  .advice-card {
+    margin-top: 10px;
+    background-color: #f8f8f8;
+  }
+  
+  .advice-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: #606266;
+  }
+  
+  .advice-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  h4 {
+    color: #409EFF;
+    margin-bottom: 10px;
+  }
+  
+  :deep(.el-descriptions__label) {
+    color: #666;
+    font-weight: bold;
+  }
+  
+  /* 为中药材识别页面定制的主题色 */
+  .herb-identification .el-button--primary {
+    --el-button-bg-color: #409EFF;
+    --el-button-border-color: #409EFF;
+    --el-button-hover-bg-color: #79bbff;
+    --el-button-hover-border-color: #79bbff;
+  }

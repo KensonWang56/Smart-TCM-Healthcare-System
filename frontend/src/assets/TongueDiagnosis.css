@@ -1,0 +1,267 @@
+.tongue-diagnosis {
+  padding: 20px;
+}
+
+.upload-section, .result-section {
+  height: 100%;
+  background-color: #fff;
+}
+
+.upload-section {
+  border: 1px solid #e4e7ed;
+  border-radius: 4px;
+}
+
+.upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 300px;
+}
+
+.upload-success {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  text-align: center;
+}
+
+.success-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.success-text {
+  color: #67C23A;
+  font-size: 16px;
+  text-align: center;
+  width: 100%;
+}
+
+.success-text p {
+  margin: 8px 0;
+}
+
+.success-text .file-name {
+  color: #606266;
+  font-size: 14px;
+  word-break: break-all;
+  max-width: 80%;
+  margin: 8px auto;
+}
+
+.analyze-btn {
+  margin: 15px auto;
+  display: block;
+  width: fit-content;
+}
+
+.analysis-result {
+  color: #333;
+  padding: 15px;
+}
+
+.health-advice {
+  margin-top: 20px;
+}
+
+.advice-card {
+  margin-top: 10px;
+  background-color: #f8f8f8;
+}
+
+.advice-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: #606266;
+}
+
+.advice-item:last-child {
+  margin-bottom: 0;
+}
+
+.recommended-herbs {
+  margin-top: 20px;
+}
+
+.herb-tag {
+  margin: 5px;
+}
+
+h4 {
+  color: #4CAF50;
+  margin-bottom: 10px;
+}
+
+:deep(.el-descriptions__label) {
+  color: #666;
+  font-weight: bold;
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* AI建议样式 */
+.ai-suggestions {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.ai-suggestions .el-divider {
+  color: #409EFF;
+  font-weight: bold;
+}
+
+.ai-suggestions .el-icon {
+  margin-right: 8px;
+  color: #F7BA2A;
+}
+
+.ai-content {
+  margin-top: 15px;
+  line-height: 1.6;
+}
+
+.ai-content h3 {
+  color: #409EFF;
+  margin: 15px 0 10px 0;
+}
+
+.ai-content ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.ai-content li {
+  margin-bottom: 8px;
+  color: #606266;
+}
+
+.ai-content p {
+  margin: 5px 0;
+  color: #606266;
+}
+
+/* 分析中的占位样式 */
+.analyzing-placeholder {
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  border: 1px solid #e4e7ed;
+}
+
+.analyzing-content {
+  text-align: center;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+  transition: transform 0.3s ease;
+}
+
+.analyzing-content:hover {
+  transform: translateY(-2px);
+}
+
+.analyzing-icon {
+  color: #409EFF;
+  animation: rotate 2s linear infinite;
+}
+
+.analyzing-content p {
+  margin: 15px 0;
+  color: #606266;
+  font-size: 16px;
+  font-weight: 500;
+  background: linear-gradient(45deg, #409EFF, #67C23A);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 加载动画点 */
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.loading-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #409EFF;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loading-dots i:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loading-dots i:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+/* 旋转动画 */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 弹跳动画 */
+@keyframes bounce {
+  0%, 80%, 100% { 
+    transform: scale(0);
+  } 
+  40% { 
+    transform: scale(1);
+  }
+}
