@@ -60,8 +60,11 @@
    ```
 
 ### 4. 数据库迁移
-
-1. 在激活的虚拟环境中，运行以下命令创建数据库表：
+1. 打开AnacondaPrompt，激活你要使用的虚拟环境
+    ```
+   conda activate env_name
+   ```
+2. 在激活的虚拟环境中，运行以下命令创建数据库表：
    ```
    python manage.py makemigrations
    python manage.py migrate
