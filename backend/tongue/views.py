@@ -8,37 +8,15 @@ from sparkai.llm.llm import ChatSparkLLM
 from sparkai.core.messages import BaseMessage, ChatMessage
 import torch
 import torchvision.transforms as transforms
+import torchvision.models as models
 import sys
 import os
+from torchvision import datasets
 
 # 添加模型路径到系统路径
 sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'model'))
 
 logger = logging.getLogger(__name__)
-
-# 导入模型类
-class SimpleCNN(torch.nn.Module):
-    def __init__(self):
-        super(SimpleCNN, self).__init__()
-        self.conv1 = torch.nn.Conv2d(3, 16, kernel_size=3, padding=1)
-        self.relu1 = torch.nn.ReLU()
-        self.pool1 = torch.nn.MaxPool2d(kernel_size=2, stride=2)
-
-        self.conv2 = torch.nn.Conv2d(16, 32, kernel_size=3, padding=1)
-        self.relu2 = torch.nn.ReLU()
-        self.pool2 = torch.nn.MaxPool2d(kernel_size=2, stride=2)
-
-        self.fc1 = torch.nn.Linear(32 * 56 * 56, 128)
-        self.relu3 = torch.nn.ReLU()
-        self.fc2 = torch.nn.Linear(128, 7)
-
-    def forward(self, x):
-        x = self.pool1(self.relu1(self.conv1(x)))
-        x = self.pool2(self.relu2(self.conv2(x)))
-        x = x.view(-1, 32 * 56 * 56)
-        x = self.relu3(self.fc1(x))
-        x = self.fc2(x)
-        return x
 
 class TongueAnalysisView(APIView):
     def __init__(self, *args, **kwargs):
@@ -54,12 +32,20 @@ class TongueAnalysisView(APIView):
                 streaming=False,
             )
             
+            # 加载数据集以获取正确的类别顺序
+            data_dir = r"D:\code\sixweek\data\Tongue coating classification"
+            dataset = datasets.ImageFolder(root=data_dir)
+            self.class_names = dataset.classes
+            
             # 初始化舌苔检测模型
-            # 使用绝对路径
             self.model_path = 'D:/code/sixweek/Code/front/model/tongue/trained_model_weights_new.pth'
             logger.info(f"尝试加载模型: {self.model_path}")
             
-            self.model = SimpleCNN()
+            # 使用ResNet50模型，保持与训练时相同的初始化方式
+            self.model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+            num_ftrs = self.model.fc.in_features
+            self.model.fc = torch.nn.Linear(num_ftrs, 7)
+            
             if os.path.exists(self.model_path):
                 try:
                     self.model.load_state_dict(torch.load(self.model_path, map_location=torch.device('cpu')))
@@ -70,31 +56,14 @@ class TongueAnalysisView(APIView):
                     raise
             else:
                 logger.error(f"模型文件不存在: {self.model_path}")
-                # 尝试查找模型
-                for root, dirs, files in os.walk('D:/code/sixweek/Code/front'):
-                    for file in files:
-                        if file == 'trained_model_weights_new.pth':
-                            logger.info(f"找到模型文件: {os.path.join(root, file)}")
-            
                 raise FileNotFoundError(f"模型文件不存在: {self.model_path}")
             
-            # 定义图像转换
+            # 定义图像转换，与训练时保持一致
             self.transform = transforms.Compose([
                 transforms.Resize((224, 224)),
                 transforms.ToTensor(),
-                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+                transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
             ])
-            
-            # 定义类别映射
-            self.class_names = [
-                "black tongue coating",
-                "brown tongue coating",
-                "map tongue coating",
-                "purple tongue coating",
-                "red tongue yellow fur thick greasy fur",
-                "The red tongue is thick and greasy",
-                "The white tongue is thick and greasy"
-            ]
             
             # 英文到中文的映射
             self.en_to_cn = {
