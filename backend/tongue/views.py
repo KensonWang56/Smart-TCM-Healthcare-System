@@ -7,6 +7,7 @@ import logging
 from sparkai.llm.llm import ChatSparkLLM
 from sparkai.core.messages import BaseMessage, ChatMessage
 import torch
+import torch.nn as nn
 import torchvision.transforms as transforms
 import torchvision.models as models
 import sys
@@ -44,7 +45,13 @@ class TongueAnalysisView(APIView):
             # 使用ResNet50模型，保持与训练时相同的初始化方式
             self.model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
             num_ftrs = self.model.fc.in_features
-            self.model.fc = torch.nn.Linear(num_ftrs, 7)
+            # 添加额外的全连接层，与训练时保持一致
+            self.model.fc = nn.Sequential(
+                nn.Linear(num_ftrs, 512),
+                nn.ReLU(),
+                nn.Dropout(0.5),
+                nn.Linear(512, 7)
+            )
             
             if os.path.exists(self.model_path):
                 try:

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.optim.lr_scheduler import CosineAnnealingLR
+from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
 from torch.utils.data import Dataset, DataLoader, random_split
 from torchvision import transforms, datasets, models
 import os
@@ -15,12 +15,14 @@ data_dir = r"D:\code\sixweek\data\Tongue coating classification"
 train_transform = transforms.Compose([
     transforms.RandomResizedCrop(224),
     transforms.RandomHorizontalFlip(),
-    transforms.RandomVerticalFlip(),  # 新增垂直翻转
-    transforms.RandomRotation(15),  # 增加旋转角度范围
-    transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.2),  # 增加颜色变换强度
+    transforms.RandomVerticalFlip(),
+    transforms.RandomRotation(30),
+    transforms.ColorJitter(brightness=0.5, contrast=0.5, saturation=0.5, hue=0.2),
     transforms.GaussianBlur(kernel_size=3),
-    transforms.RandomAffine(degrees=15, translate=(0.15, 0.15), scale=(0.8, 1.2)),  # 增加仿射变换强度
-    transforms.RandomErasing(p=0.6),  # 增加随机擦除概率
+    transforms.RandomAffine(degrees=30, translate=(0.2, 0.2), scale=(0.7, 1.3)),
+    transforms.RandomErasing(p=0.8),
+    transforms.RandomPerspective(distortion_scale=0.3, p=0.6),
+    transforms.AutoAugment(transforms.AutoAugmentPolicy.IMAGENET),
     transforms.ToTensor(),
     transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
 ])
@@ -44,16 +46,22 @@ train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
 train_dataset.dataset.transform = train_transform
 test_dataset.dataset.transform = test_transform
 
-train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)  # 增加批次大小
-test_loader = DataLoader(test_dataset, batch_size=8, shuffle=False)  # 增加批次大小
+train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
 # 使用更复杂的预训练模型，这里选择ResNet50
 model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
 num_ftrs = model.fc.in_features
-model.fc = nn.Linear(num_ftrs, 7)
+# 添加额外的全连接层
+model.fc = nn.Sequential(
+    nn.Linear(num_ftrs, 512),
+    nn.ReLU(),
+    nn.Dropout(0.5),
+    nn.Linear(512, 7)
+)
 
 # 已训练模型的文件路径
-model_path = 'trained_model_weights_new.pth'
+model_path = 'trained_model_weights_new2.pth'
 
 # 初始化模型
 if os.path.exists(model_path):
@@ -62,19 +70,27 @@ if os.path.exists(model_path):
     print("已加载训练好的模型")
     model.eval()
 else:
-    # 初始化损失函数和优化器，调整学习率
+    # 初始化损失函数和优化器，调整学习率，添加L2正则化
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.0001)  # 降低学习率
+    optimizer = optim.AdamW(model.parameters(), lr=0.001, weight_decay=0.001)
     # 学习率调度器
-    scheduler = CosineAnnealingLR(optimizer, T_max=100)
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=10, T_mult=2)
 
     # 早停机制参数
     best_val_acc = 0
-    patience = 15  # 增加早停耐心
+    patience = 20
     counter = 0
 
+    # 冻结模型的部分层
+    for param in model.parameters():
+        param.requires_grad = False
+    for param in model.fc.parameters():
+        param.requires_grad = True
+    for param in model.layer4.parameters():
+        param.requires_grad = True
+
     # 训练模型
-    num_epochs = 250  # 增加训练轮数
+    num_epochs = 300
     for epoch in range(num_epochs):
         running_loss = 0.0
         # 使用 tqdm 显示训练进度
@@ -92,8 +108,7 @@ else:
                 avg_loss = running_loss / 100
                 progress_bar.set_postfix({'loss': avg_loss})
                 running_loss = 0.0
-       
-       
+
         # 验证集评估
         with torch.no_grad():
             correct = 0
@@ -133,15 +148,11 @@ with torch.no_grad():
 
     print(f'Accuracy of the network on the test images: {100 * correct / total}%')
 
-
 # 新增部分：让用户输入图片进行预测
 def predict_single_image(image_path, model, transform):
     try:
         # 打开图片
         image = Image.open(image_path)
-        # 将四通道的 RGBA 图像转换为三通道的 RGB 图像
-        if image.mode == 'RGBA':
-            image = image.convert('RGB')
         # 预处理图片
         image = transform(image).unsqueeze(0)
         # 进行预测
@@ -155,7 +166,6 @@ def predict_single_image(image_path, model, transform):
     except Exception as e:
         print(f"预测出错: {e}")
         return None
-
 
 # 让用户输入图片路径
 image_path = input("请输入要预测的图片路径: ")
