@@ -114,6 +114,46 @@ npm run dev
 1. MTCNN - 用于人脸检测和对齐
 2. InceptionResnetV1 (预训练模型: vggface2) - 用于生成人脸特征向量
 
+### 预训练模型下载
+
+系统在首次使用人脸识别功能时会自动下载预训练模型，模型文件将保存在以下位置：
+- Windows: `C:\Users\[用户名]\.cache\torch\checkpoints\`
+- Linux/Mac: `~/.cache/torch/checkpoints/`
+
+注意：模型下载发生在首次调用人脸识别相关API时，而不是在启动后端服务器时。如果您在首次使用时遇到网络问题导致下载失败，可以使用以下两种方式之一：
+
+#### 方式一：使用下载脚本（推荐）
+
+1. 确保已安装额外依赖：
+   ```
+   pip install requests tqdm
+   ```
+
+2. 运行下载脚本：
+   ```
+   cd backend/face_recognition
+   python download_models.py
+   ```
+
+脚本会自动：
+- 检查模型是否已存在
+- 如果不存在，下载模型文件
+- 验证模型是否可以正常加载
+- 显示模型文件的具体位置
+
+#### 方式二：手动下载
+
+1. 创建模型目录：
+   ```
+   mkdir -p ~/.cache/torch/checkpoints/
+   ```
+
+2. 下载预训练模型：
+   - InceptionResnetV1 (vggface2): [下载链接](https://drive.google.com/file/d/1Sy3QkBZlSbhrpW0lLPeY5HBe-rVlTv8X/view?usp=sharing)
+   - 下载后将文件重命名为 `20180402-114759-vggface2.pt` 并放入上述目录
+
+注意：MTCNN 模型会在首次使用时自动下载，无需手动操作。
+
 人脸识别数据存储在以下两个数据库表中：
 
 - `face_users` - 存储用户信息
