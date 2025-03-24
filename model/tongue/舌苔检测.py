@@ -92,7 +92,8 @@ else:
                 avg_loss = running_loss / 100
                 progress_bar.set_postfix({'loss': avg_loss})
                 running_loss = 0.0
-
+       
+       
         # 验证集评估
         with torch.no_grad():
             correct = 0
