@@ -60,17 +60,8 @@
           </template>
           <div class="analysis-result">
             <el-descriptions :column="1" border>
-              <el-descriptions-item label="舌质">
-                {{ analysisResult.tongueBody }}
-              </el-descriptions-item>
-              <el-descriptions-item label="舌苔">
+              <el-descriptions-item label="舌苔性状">
                 {{ analysisResult.tongueCoating }}
-              </el-descriptions-item>
-              <el-descriptions-item label="舌色">
-                {{ analysisResult.tongueColor }}
-              </el-descriptions-item>
-              <el-descriptions-item label="主要症候">
-                {{ analysisResult.mainSymptoms }}
               </el-descriptions-item>
             </el-descriptions>
             
@@ -158,23 +149,33 @@ const handleAnalyze = async () => {
   try {
     const formData = new FormData()
     formData.append('image', file.value.raw)
+    console.log('准备上传文件:', file.value.name, '大小:', file.value.size)
     
     const response = await analyzeTongue(formData)
-    console.log('API Response:', response) // 添加调试日志
+    console.log('API 原始响应:', response) // 添加调试日志
     
-    // 修改结果处理逻辑
-    analysisResult.value = {
-      tongueBody: response.tongueBody || '未知',
-      tongueCoating: response.tongueCoating || '未知',
-      tongueColor: response.tongueColor || '未知',
-      mainSymptoms: response.mainSymptoms || '未知',
-      aiSuggestions: response.aiSuggestions || ''
+    // 确保响应数据有效
+    if (!response) {
+      throw new Error('未接收到有效的分析结果')
     }
     
-    ElMessage.success('分析完成！')
+    // 尝试处理可能的不同响应格式
+    let responseData = response
+    
+    console.log('处理的响应数据:', responseData)
+    
+    // 处理分析结果
+    analysisResult.value = {
+      tongueCoating: responseData.tongueCoating || '未检测到',
+      aiSuggestions: responseData.aiSuggestions || ''
+    }
+    
+    console.log('最终处理后的分析结果:', analysisResult.value)
+    
+    ElMessage.success('舌苔分析完成！')
   } catch (error) {
     console.error('分析错误:', error)
-    ElMessage.error(error.message || '分析失败，请重试')
+    ElMessage.error(typeof error === 'string' ? error : '舌苔分析失败，请重试')
     analysisResult.value = null
   } finally {
     isAnalyzing.value = false

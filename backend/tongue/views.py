@@ -4,10 +4,41 @@ from rest_framework import status
 from PIL import Image
 import io
 import logging
-from sparkai.llm.llm import ChatSparkLLM  # 直接从正确的路径导入
-from sparkai.core.messages import BaseMessage, ChatMessage  # 添加必要的导入
+from sparkai.llm.llm import ChatSparkLLM
+from sparkai.core.messages import BaseMessage, ChatMessage
+import torch
+import torchvision.transforms as transforms
+import sys
+import os
+
+# 添加模型路径到系统路径
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'model'))
 
 logger = logging.getLogger(__name__)
+
+# 导入模型类
+class SimpleCNN(torch.nn.Module):
+    def __init__(self):
+        super(SimpleCNN, self).__init__()
+        self.conv1 = torch.nn.Conv2d(3, 16, kernel_size=3, padding=1)
+        self.relu1 = torch.nn.ReLU()
+        self.pool1 = torch.nn.MaxPool2d(kernel_size=2, stride=2)
+
+        self.conv2 = torch.nn.Conv2d(16, 32, kernel_size=3, padding=1)
+        self.relu2 = torch.nn.ReLU()
+        self.pool2 = torch.nn.MaxPool2d(kernel_size=2, stride=2)
+
+        self.fc1 = torch.nn.Linear(32 * 56 * 56, 128)
+        self.relu3 = torch.nn.ReLU()
+        self.fc2 = torch.nn.Linear(128, 7)
+
+    def forward(self, x):
+        x = self.pool1(self.relu1(self.conv1(x)))
+        x = self.pool2(self.relu2(self.conv2(x)))
+        x = x.view(-1, 32 * 56 * 56)
+        x = self.relu3(self.fc1(x))
+        x = self.fc2(x)
+        return x
 
 class TongueAnalysisView(APIView):
     def __init__(self, *args, **kwargs):
@@ -22,19 +53,93 @@ class TongueAnalysisView(APIView):
                 spark_llm_domain='max-32k',
                 streaming=False,
             )
+            
+            # 初始化舌苔检测模型
+            # 使用绝对路径
+            self.model_path = 'D:/code/sixweek/Code/front/model/tongue/trained_model_weights_new.pth'
+            logger.info(f"尝试加载模型: {self.model_path}")
+            
+            self.model = SimpleCNN()
+            if os.path.exists(self.model_path):
+                try:
+                    self.model.load_state_dict(torch.load(self.model_path, map_location=torch.device('cpu')))
+                    self.model.eval()
+                    logger.info("舌苔检测模型加载成功")
+                except Exception as e:
+                    logger.error(f"模型加载失败: {str(e)}")
+                    raise
+            else:
+                logger.error(f"模型文件不存在: {self.model_path}")
+                # 尝试查找模型
+                for root, dirs, files in os.walk('D:/code/sixweek/Code/front'):
+                    for file in files:
+                        if file == 'trained_model_weights_new.pth':
+                            logger.info(f"找到模型文件: {os.path.join(root, file)}")
+            
+                raise FileNotFoundError(f"模型文件不存在: {self.model_path}")
+            
+            # 定义图像转换
+            self.transform = transforms.Compose([
+                transforms.Resize((224, 224)),
+                transforms.ToTensor(),
+                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+            ])
+            
+            # 定义类别映射
+            self.class_names = [
+                "black tongue coating",
+                "brown tongue coating",
+                "map tongue coating",
+                "purple tongue coating",
+                "red tongue yellow fur thick greasy fur",
+                "The red tongue is thick and greasy",
+                "The white tongue is thick and greasy"
+            ]
+            
+            # 英文到中文的映射
+            self.en_to_cn = {
+                "black tongue coating": "黑苔",
+                "brown tongue coating": "褐苔",
+                "map tongue coating": "地图舌",
+                "purple tongue coating": "紫苔",
+                "red tongue yellow fur thick greasy fur": "红舌黄苔厚腻苔",
+                "The red tongue is thick and greasy": "红舌厚腻苔",
+                "The white tongue is thick and greasy": "白舌厚腻苔"
+            }
+            
         except Exception as e:
-            logger.error(f"初始化星火大模型失败: {str(e)}")
+            logger.error(f"初始化失败: {str(e)}")
             raise
 
-    def get_ai_suggestions(self, diagnosis_result):
+    def predict_tongue(self, image):
+        """使用模型预测舌苔类型"""
+        try:
+            # 预处理图片
+            image_tensor = self.transform(image).unsqueeze(0)
+            
+            # 进行预测
+            with torch.no_grad():
+                output = self.model(image_tensor)
+                _, predicted = torch.max(output.data, 1)
+            
+            # 获取预测结果
+            predicted_class_idx = predicted.item()
+            predicted_class_en = self.class_names[predicted_class_idx]
+            predicted_class_cn = self.en_to_cn[predicted_class_en]
+            
+            logger.info(f"舌苔预测结果: {predicted_class_en} -> {predicted_class_cn}")
+            
+            return predicted_class_en, predicted_class_cn
+        except Exception as e:
+            logger.error(f"舌苔预测失败: {str(e)}")
+            return None, "预测失败"
+
+    def get_ai_suggestions(self, tongue_type_cn):
         try:
             prompt = f"""
             基于以下舌诊结果给出建议：
-            舌质：{diagnosis_result['tongueBody']}
-            舌苔：{diagnosis_result['tongueCoating']}
-            舌色：{diagnosis_result['tongueColor']}
-            主要症候：{diagnosis_result['mainSymptoms']}
-            
+            舌苔性状：{tongue_type_cn}
+
             请给出3条简短建议（每条15字以内）和7味推荐中药（只需要药名）。
             回复格式：
             建议：
@@ -47,7 +152,7 @@ class TongueAnalysisView(APIView):
             给出的建议和药名不要带[]。
             """
             
-            messages = [ChatMessage(  # 使用正确的消息格式
+            messages = [ChatMessage(
                 role="user",
                 content=prompt
             )]
@@ -63,28 +168,52 @@ class TongueAnalysisView(APIView):
             # 获取上传的舌苔图片
             image_file = request.FILES.get('image')
             if not image_file:
+                logger.error("未找到上传的图片")
                 return Response({'error': '未找到上传的图片'}, status=status.HTTP_400_BAD_REQUEST)
 
             # 打印接收到的文件信息
             logger.info(f"接收到文件: {image_file.name}, 大小: {image_file.size}")
 
-            # 读取和预处理图片
-            image = Image.open(io.BytesIO(image_file.read()))
-            # TODO: 实现实际的舌诊分析逻辑
+            try:
+                # 读取图片
+                image_data = io.BytesIO(image_file.read())
+                logger.info(f"成功读取图片数据，大小: {len(image_data.getvalue())} 字节")
+                
+                image = Image.open(image_data)
+                logger.info(f"成功打开图片，尺寸: {image.size}，格式: {image.format}")
+                
+                # 使用模型预测舌苔类型
+                logger.info("开始预测舌苔类型...")
+                tongue_type_en, tongue_type_cn = self.predict_tongue(image)
+                
+                # 记录预测结果
+                logger.info(f"舌苔预测完成: {tongue_type_en} -> {tongue_type_cn}")
+                
+                if not tongue_type_cn or tongue_type_cn == "预测失败":
+                    logger.error("舌苔类型预测失败")
+                    return Response({'error': '舌苔类型预测失败'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    
+                # 构建分析结果（只包含舌苔性状）
+                analysis_result = {
+                    'tongueCoating': tongue_type_cn
+                }
+                logger.info(f"分析结果初步构建: {analysis_result}")
 
-            # 模拟分析结果
-            analysis_result = {
-                'tongueBody': '舌质淡红，略胖大',
-                'tongueCoating': '薄白苔',
-                'tongueColor': '淡红色',
-                'mainSymptoms': '脾胃虚弱，气血不足'
-            }
+                # 调用星火大模型获取建议
+                logger.info(f"正在获取AI建议，舌苔类型: {tongue_type_cn}")
+                ai_suggestions = self.get_ai_suggestions(tongue_type_cn)
+                analysis_result['aiSuggestions'] = ai_suggestions
+                
+                # 记录返回的结果
+                logger.info(f"完整分析结果构建完成，准备返回: {analysis_result}")
 
-            # 调用星火大模型获取建议
-            ai_suggestions = self.get_ai_suggestions(analysis_result)
-            analysis_result['aiSuggestions'] = ai_suggestions
-
-            return Response(analysis_result, status=status.HTTP_200_OK)
+                response = Response(analysis_result, status=status.HTTP_200_OK)
+                logger.info(f"返回响应对象: {response}")
+                return response
+                
+            except IOError as e:
+                logger.error(f"图片处理错误: {str(e)}")
+                return Response({'error': f'图片处理错误: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as e:
             logger.error(f"舌诊分析失败: {str(e)}")

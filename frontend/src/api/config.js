@@ -26,6 +26,21 @@ api.interceptors.request.use(
 // 响应拦截器
 api.interceptors.response.use(
   response => {
+    // 对于特定的接口，返回完整响应
+    if (response.config.url.includes('/tongue/analyze/')) {
+      console.log('舌苔分析接口原始响应:', response);
+      // 尝试解析响应
+      try {
+        if (response.data) {
+          return response.data;
+        }
+      } catch (e) {
+        console.error('解析舌苔分析响应错误:', e);
+      }
+      return response;
+    }
+    
+    // 其他接口返回data部分
     return response.data
   },
   error => {
