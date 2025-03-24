@@ -89,7 +89,11 @@ python manage.py runserver
    ```
    cd 路径/到项目/frontend
    ```
-3. 安装依赖：
+3. 查看npm是否能正常工作，运行下面命令，如果能出现版本号，则跳过第四步：
+   ```
+   npm -v
+   ```
+4. 如npm不能正常工作，安装依赖：
    ```
    npm install
    ```
