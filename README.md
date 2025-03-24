@@ -1,4 +1,4 @@
-# 中医系统安装与运行说明文档
+# 智能中医系统安装与运行说明文档
 
 ## 系统要求
 
@@ -60,8 +60,11 @@
    ```
 
 ### 4. 数据库迁移
-
-1. 在激活的虚拟环境中，运行以下命令创建数据库表：
+1. 打开AnacondaPrompt，激活你要使用的虚拟环境
+    ```
+   conda activate env_name
+   ```
+2. 在激活的虚拟环境中，运行以下命令创建数据库表：
    ```
    python manage.py makemigrations
    python manage.py migrate
@@ -86,7 +89,11 @@ python manage.py runserver
    ```
    cd 路径/到项目/frontend
    ```
-3. 安装依赖：
+3. 查看npm是否能正常工作，运行下面命令，如果能出现版本号，则跳过第四步：
+   ```
+   npm -v
+   ```
+4. 如npm不能正常工作，安装依赖：
    ```
    npm install
    ```
