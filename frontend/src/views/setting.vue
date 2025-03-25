@@ -261,7 +261,7 @@
       <div v-if="cameraDialogVisible" class="camera-fullscreen-container">
         <div class="camera-popup">
           <div class="camera-popup-header">
-            <h3>面部信息录入</h3>
+            <h3>面部信息更新</h3>
             <el-button class="close-btn" type="text" @click="stopCamera">
               <el-icon><Close /></el-icon>
             </el-button>
