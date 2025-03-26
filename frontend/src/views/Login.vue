@@ -156,7 +156,7 @@
       class="user-selection-dialog">
       <div class="user-selection-container">
         <p class="user-selection-tip" v-if="multipleUsers.length > 0">
-          检测到多个匹配的用户，请选择一个账户登录：
+          人脸匹配成功，请选择账户进行登录：
         </p>
         <div class="user-cards-container">
           <div
